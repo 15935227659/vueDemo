@@ -5,19 +5,8 @@ export const getList = (page) => {
    return axios({
        method:'post',
        params:page,
-       url:baseUrl+'/member/find',
-       auth:{
-            username:'ghost',
-            password:'ghost'
-        },
-        proxy: {
-            host: '127.0.0.1',
-            port: 8080,
-            auth: {
-            username: 'ghost',
-            password: 'ghost'
-            }
-        }
+       url:baseUrl+'/member/find'
+      
    }).then((res) => {
        console.log(res)
         if(res.status){
@@ -32,11 +21,8 @@ export const getCount = () => {
     
    return axios({
        method:'post',
-       url:baseUrl+'/member/count',
-       auth:{
-                username:'ghost',
-                password:'ghost'
-       }
+       url:baseUrl+'/member/count'
+      
    }).then((res) => {
         if(res.status){
             return res.data
@@ -53,19 +39,8 @@ export const delUser = (userId) => {
        params:{
             memberId:userId
        },
-       url:baseUrl+'/member/del',
-        auth:{
-            username:'ghost',
-            password:'ghost'
-        },
-        proxy: {
-            host: '127.0.0.1',
-            port: 8080,
-            auth: {
-            username: 'ghost',
-            password: 'ghost'
-            }
-        }
+       url:baseUrl+'/member/del'
+        
    }).then((res) => {
        console.log(res)
         if(res.status){

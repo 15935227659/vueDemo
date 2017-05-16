@@ -68,14 +68,18 @@ router.beforeEach((to,from,next) => {
     next()
   }
 })
-router.afterEach(( to ) => {
+//通过afterEach做的页面名称的改变
+router.afterEach(( to,from ) => {
    let titles = []
    let matched = to.name
-   console.log(matched)
-  //  matched.slice().forEach(({ handler: { title } }) => {
-  //   title && titles.push(title)
-  // })
+  // title动态添加
   document.title = matched
+  const decode = decodeURIComponent
+  // 打印路由
+  if(process.env.NODE_ENV === 'development'){
+      console.info(`[路由日志] ${decode(from.path || '')} => ${decode(to.path)}`)
+  }
+  
 })
 
 
