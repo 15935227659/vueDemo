@@ -65,7 +65,7 @@ router.beforeEach((to,from,next) => {
       })
     }
   }else {
-    next()
+     next()
   }
 })
 //通过afterEach做的页面名称的改变
