@@ -23,10 +23,9 @@ export const getCount = () => {
        method:'post',
        url:baseUrl+'/member/count'
       
-   }).then((res) => {
-        if(res.status){
+   }).then((res) => {         
             return res.data
-        }
+        
    }).catch((err) => {
        console.log(err)
    })
@@ -42,15 +41,18 @@ export const delUser = (userId) => {
        url:baseUrl+'/member/del'
         
    }).then((res) => {
+       
        console.log(res)
-        if(res.status){
+        if(res.status == 200){
             return true
         }
-            return false
-        
-        
+            return false          
    }).catch((err) => {
-       console.log(err)
+        
+        if(err.response.status == 401){
+            alert("权限不够。")
+            
+        }
    })
 
 }

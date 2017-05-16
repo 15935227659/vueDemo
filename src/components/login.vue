@@ -65,9 +65,6 @@
                  if(this.user.memberName == ''){
                     alert("用户名必填")
                     return false
-                }else if(!this.rightPhoneNumber){
-                    alert('用户名是11位手机号码')
-                     return false
                 }else if(this.user.memberPwd == ''){
                     alert('密码必填')
                      return false

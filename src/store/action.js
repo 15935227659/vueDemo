@@ -45,13 +45,18 @@ export default {
                  
         }).then((res) => {
           console.log(res)
-           if(res.status == 200){
-
+           if(res.data.state == "success"){
+               
                 commit('REMEBER_USER', userInfo)
                 return true
+            }else{
+                 alert(res.data.message)
+                 return false
             }
+          
+        }).catch((err) => {
+            alert(err)
             return false
-            
         })
     }
    
