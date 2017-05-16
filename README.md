@@ -1,9 +1,8 @@
 
+# vueDemo
 
 > vue.js2.0简单的一个会员管理，包括登录，注册，列表，删除，翻页
 
-
-# vue_shop
 
 > 技术栈
       vue-cli     vuecli脚手架
