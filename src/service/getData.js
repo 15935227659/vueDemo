@@ -48,11 +48,11 @@ export const delUser = (userId) => {
         }
             return false          
    }).catch((err) => {
-        
-        if(err.response.status == 401){
-            alert("权限不够。")
+        console.log(err)
+        // if(err.response.status == 401){
+        //     alert("权限不够。")
             
-        }
+        // }
    })
 
 }

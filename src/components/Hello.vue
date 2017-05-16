@@ -6,15 +6,14 @@
        <el-col :span="8">编号</el-col>
        <el-col :span="5">用户名</el-col>
        <el-col :span="5">密码</el-col>
-        
-       <el-col :span="3">删除</el-col>
+       <el-col :span="3" v-show="security.del">删除</el-col>
     </el-col>
     <el-col v-for="(list,index) in lists" :span="24" class="table_row" :key="list.memberId">
        <el-col :span="8">{{list.memberId}}</el-col>
       <el-col :span="5">{{list.memberName}}</el-col>
       <el-col :span="5">{{list.memberPwd}}</el-col>
       
-       <el-col :span="3"><i class="el-icon-close del_btn" @click="delUser(list.memberId,index,list.memberLvl)"></i></el-col>
+       <el-col :span="3" v-show="security.del"><i class="el-icon-close del_btn" @click="delUser(list.memberId,index,list.memberLvl)"></i></el-col>
     </el-col>
    
   </el-col>
@@ -43,7 +42,8 @@ export default {
       lists: [],
       pageSize:3,
       page:1,
-      allSize:1
+      allSize:1,
+      security
     }
   },
   computed:{
@@ -88,6 +88,10 @@ export default {
              this.lists.splice(index,1)
           }
       },
+      async getSecurity(){
+        return "{add:true,update：true,del:false,find:true}"
+      }
+      ,
       outLogin (){
       
           removeStore('userInfo')
