@@ -7,20 +7,21 @@ Vue.use(Vuex)
 
 const state = {
      user:{
-        memberName:'',
-        memberpwd: ''
-        }
+        username:'',
+        name: '',
+        userPhoto:''
+    }
 
 }
 
 const mutations = {
     REMEBER_USER (state,userInfo) {
-        state.user.memberName = userInfo.memberName
-        state.user.memberpwd = userInfo.memberpwd
-        state.user.memberlvl = userInfo.memberlvl
+        state.user.username = userInfo.username
+        state.user.name = userInfo.name
+        state.user.userPhoto = userInfo.userPhoto
         state.user.confirmMemberpwd = userInfo.confirmMemberpwd
         setStore('userInfo',JSON.stringify(userInfo))
-        console.log(getStore('userInfo'))
+        
     }
 }
 

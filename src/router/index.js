@@ -1,9 +1,24 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import Login from '@/components/login'
-import Hello from '@/components/Hello'
-import Register from '@/components/register'
-import Child from '@/components/child'
+import Login from '@/components/auth/login'
+import Main from '@/components/common/main'
+import Register from '@/components/auth/register'
+// user 管理
+import userList from '@/components/manage/list'
+import Add from '@/components/manage/add'
+
+// 商品
+import proList from '@/components/product/list'
+import addPro from '@/components/product/addPro'
+import upload from '@/components/product/upload'
+// 卖家
+import sellerList from '@/components/seller/list' 
+
+
+
+
+
+
 import { getStore } from '@/config/storage'
 import store from '@/store/index'
 
@@ -21,28 +36,59 @@ const router = new Router({
       }
   },
   routes: [
+    { path: '/', redirect: '/login' ,hidden:true},
     {
-      path: '/',
+      path: '/regin',
       name: '注册',
-      component: Register
-     
+      component: Register,
+      hidden:true   
     },
     {
       path: '/login',
       name: '登录',
       component: Login,
-      children:[
-        {path:'test',component:Child,name:'登录的子'}
+      hidden:true
+    },
+    {
+      path: '/user',
+      name: '用户管理',
+      iconCls:'el-icon-message',
+      component: Main,
+      meta: {
+        requireAuth:true //该字段用来验证这个路由时许需要登陆的
+      },
+       children:[
+          {path:'userList',component:userList,name:'用户列表'},
+          {path:'add',component:Add,name:'新增'}
       ]
     },
     {
-      path: '/Hello',
-      name: '列表',
-      component: Hello,
+      path: '/user',
+      name: '商品管理',
+      component: Main,
+      iconCls:'el-icon-share ',
       meta: {
         requireAuth:true //该字段用来验证这个路由时许需要登陆的
-      }
-    }
+      },
+       children:[
+          {path:'proList',iconCls:'el-icon-share ',component:proList,name:'商品列表'},
+           {path:'addPro',iconCls:'el-icon-share ',component:addPro,name:'发布商品'},
+           {path:'upload',iconCls:'el-icon-share ',component:upload,name:'上传图片'}
+      ]
+    },
+   {
+      path: '/user',
+      name: '商家管理',
+      iconCls:'el-icon-upload',
+      component: Main,
+      meta: {
+        requireAuth:true //该字段用来验证这个路由时许需要登陆的
+      },
+       children:[
+          {path:'sellerList',iconCls:'el-icon-upload',component:sellerList,name:'卖家列表'}
+      ]
+     }
+
   ]
 })
 // 刷新也main时，重新赋值登录信息
@@ -55,7 +101,7 @@ if(getStore('userInfo')){
 router.beforeEach((to,from,next) => {
   if(to.meta.requireAuth) {
   
-    if(store.state.user.memberName){
+    if(store.state.user.username){
       next()
     }else {
       alert("您还没有登录，不能浏览相关页面")

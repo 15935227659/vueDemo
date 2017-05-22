@@ -4,34 +4,23 @@ const baseUrl = process.env.BASE_URL
 export default {
      registerUser({ commit }, userInfo) {
         console.log(baseUrl)
-         
-        // axios.post('/regin',{memberName:"456",memberPwd:"123",memberLvl:2}).then((res) => {
+        userInfo.userPhoto = "https://github.com/zlc140/vueDemo/blob/master/src/assets/logo.png"
          return axios({
                 method:"post",
-                params:userInfo,
-                url:baseUrl+'/member/regin',
+                data:userInfo,
+                url:'/register',
                 withCredentials: true
-                // auth:{
-                //    username:'ghost',
-                //    password:'ghost'
-                // },
-                // proxy: {
-                //     host: '127.0.0.1',
-                //     port: 8080,
-                //     auth: {
-                //     username: 'ghost',
-                //     password: 'ghost'
-                //     }
-                // }
             }).then((res)=>{
-
-        
-            console.log(res)
+            if(res.data.msg == '账号已存在'){
+                
+                return false
+            }
+            //  console.log(res)
             commit('REMEBER_USER', userInfo)
             return true
         }).catch(function (err) {
 
-            console.log(err)
+            // console.log(err)
             return false
 
         })
@@ -40,20 +29,20 @@ export default {
         
         return axios({
             method:'post',
-            params:userInfo,
-            url:baseUrl+'/member/login'
+            data:userInfo,
+            url:'/login'
                  
         }).then((res) => {
-          console.log(res)
-           if(res.data.state == "success"){
-               
-                commit('REMEBER_USER', userInfo)
+           
+          let { code,msg,user } = res.data
+           if(code == 200 && msg == '请求成功'){
+               console.log(user)            
+                commit('REMEBER_USER', user)
                 return true
             }else{
-                 alert(res.data.message)
+                 alert(msg)
                  return false
-            }
-          
+            }      
         }).catch((err) => {
             alert(err)
             return false

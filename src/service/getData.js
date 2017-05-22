@@ -1,58 +1,49 @@
 import axios from 'axios'
 const baseUrl = process.env.BASE_URL
-export const getList = (page) => {
-    
+export const getList = (page) => {   
    return axios({
-       method:'post',
+       method:'get',
        params:page,
-       url:baseUrl+'/member/find'
-      
-   }).then((res) => {
-       console.log(res)
-        if(res.status){
-            return res.data.content
-        }
-   }).catch((err) => {
-       console.log(err)
+       url:'/user/listpage'   
    })
-
 }
-export const getCount = () => {
-    
-   return axios({
-       method:'post',
-       url:baseUrl+'/member/count'
-      
-   }).then((res) => {         
-            return res.data
-        
-   }).catch((err) => {
-       console.log(err)
-   })
 
+export const removeUser = (para) => {   
+   return axios({
+       method:'get',
+       params:para,
+       url:'/user/remove'
+        
+   })
 }
-export const delUser = (userId) => {
-    
-   return axios({
-       method:'post',
-       params:{
-            memberId:userId
-       },
-       url:baseUrl+'/member/del'
-        
-   }).then((res) => {
-       
-       console.log(res)
-        if(res.status == 200){
-            return true
-        }
-            return false          
-   }).catch((err) => {
-        console.log(err)
-        // if(err.response.status == 401){
-        //     alert("权限不够。")
-            
-        // }
-   })
+export const batchremove = (para) => {   
 
+   return axios({
+       method:'get',
+       params:para,
+       url:'/user/batchremove'     
+   })
+}
+export const editUser = (para) => {   
+
+   return axios({
+       method:'get',
+       params:para,
+       url:'/user/edit'     
+   })
+}
+export const addUser = (para) => {   
+
+   return axios({
+       method:'get',
+       params:para,
+       url:'/user/add'     
+   })
+}
+export const upload = (para) => {   
+   return axios({
+       method:'get',
+       params:para,
+       url:'/upload'     
+   })
 }

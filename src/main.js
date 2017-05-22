@@ -6,7 +6,9 @@ import router from './router'
 import store from './store/index'
 import elementUI from 'element-ui'
 import 'element-ui/lib/theme-default/index.css'
-import axios_lode from './service/axios_lode'
+// import axios_lode from './service/axios_lode'
+import Mock from './mock/mock'
+Mock.bootstrap()
 
 Vue.use(elementUI)
 
@@ -17,7 +19,7 @@ new Vue({
   el: '#app',
   router,
   store,
-  axios_lode,
+  
   template: '<App/>',
   components: { App }
 })

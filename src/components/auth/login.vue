@@ -1,12 +1,12 @@
 <<template>
         <div class="form_box">
-           
-                <el-input placeholder = "请输入用户名" v-model="user.memberName">
+            <img src="../../assets/logo.png">
+                <el-input placeholder = "请输入用户名" v-model="user.username">
                     <template slot="prepend">
                        <i class="el-icon-edit"></i>
                     </template>    
                 </el-input>
-                <el-input placeholder="请输入密码" type="password" v-model="user.memberPwd">
+                <el-input placeholder="请输入密码" type="password" v-model="user.password">
                      <template slot="prepend">
                        <i class="el-icon-message"></i>
                     </template>  
@@ -20,9 +20,7 @@
                  <el-col>
                      <el-button :plain="true" type="primary" class="btn" @click="goList">列表页面</el-button>
                 </el-col>
-                 <el-col>
-                     <el-button :plain="true" type="primary" class="btn" @click="goChild"> 子路由 </el-button>
-                </el-col>
+                 
                 <transition name="router-slid" mode="out-in">
                     <router-view></router-view>
                 </transition>
@@ -35,8 +33,8 @@
         data() {
             return {
                 user:{
-                    memberName:'',
-                    memberPwd: ''                
+                    username:'',
+                    password: ''                
                 }
             }
         },
@@ -44,7 +42,7 @@
             // 验证手机号
             rightPhoneNumber: function () {
                
-                    return /^1[34578]\d{9}$/gi.test(this.user.memberName) 
+                    return /^1[34578]\d{9}$/gi.test(this.user.username) 
             }
         },
         mounted() {
@@ -52,29 +50,27 @@
         },
         methods: {
             goRgister () {
-                this.$router.push('/')
+                this.$router.push('/regin')
             },
             goList () {
-                this.$router.push('/Hello')
+                this.$router.push('/user/userlist')
             },
-            goChild () {
-                 this.$router.push('/login/test')
-            },
+             
             check () {
                
-                 if(this.user.memberName == ''){
+                 if(this.user.username == ''){
                     alert("用户名必填")
                     return false
-                }else if(this.user.memberPwd == ''){
+                }else if(this.user.password == ''){
                     alert('密码必填')
                      return false
                 }
                 this.$store.dispatch('checkUser',this.user).then((res) => {
-                    console.log(res)
+                    
                     if(!res){
                         return false
                     }else{
-                        this.$router.push('./Hello')
+                        this.$router.push('/user/userlist')
                     }
                 })
 
@@ -93,7 +89,7 @@
         margin: 10px 0;
     }
     .form_box .btn{
-        width:280px;
+        width:300px;
         margin-top:20px;
     }
      .el-button+.el-button{
