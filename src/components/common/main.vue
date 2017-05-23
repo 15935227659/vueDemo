@@ -1,6 +1,6 @@
 <template>
   <div class="hello">
-    <header-bar @changeCollapsed = "changeCollapsed"></header-bar>
+    <header-bar @changeCollapsed = "changeCollapsed" ></header-bar>
      
     <!--列表-->
     <el-col :span="24" class="main"> 
@@ -31,12 +31,16 @@ export default {
       collapsed:false
     }
   },
+  computed:{
+   
+  },
   components :{ headerBar,leftAside,breadCrunmb },
   methods:{
     // 监控头部的点击事件
       changeCollapsed(count){
         this.collapsed = count
       }
+       
   }
 }
 </script>

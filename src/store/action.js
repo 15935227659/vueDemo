@@ -4,7 +4,7 @@ const baseUrl = process.env.BASE_URL
 export default {
      registerUser({ commit }, userInfo) {
         console.log(baseUrl)
-        userInfo.userPhoto = "https://github.com/zlc140/vueDemo/blob/master/src/assets/logo.png"
+       
          return axios({
                 method:"post",
                 data:userInfo,

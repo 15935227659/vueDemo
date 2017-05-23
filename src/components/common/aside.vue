@@ -1,7 +1,7 @@
 <template>
   <el-col :span="24" :class="collapsed?'menu-collapsed':'menu-expanded'">
       <!--展开的侧边栏-->
-      <el-menu class="el-menu-vertical-demo" default-active="onRoutes"
+      <el-menu class="el-menu-vertical-demo" :default-active="onRouter"
         @select="handleselect" unique-opened router v-show="!collapsed">
         <template v-for="(item,index) in $router.options.routes"  v-if="!item.hidden">     
             <el-submenu :index="index+''" v-if="!item.leaf">
@@ -44,15 +44,17 @@
 <script>
 export default {
     props:['collapsed'],
+
     computed: {
-       onRoutes(){
-           console.log(this.$route.path+"我是现在的路由")
-           return this.$route.path 
-       }
+         onRouter(){
+             //这里通过路由得到的侧边栏，注意设置默认样式时需要处理
+             let routs = this.$route.path.split('/')
+             return routs[routs.length-1]
+      }
     },
     mounted(){
         console.log(this.collapsed)
-        // console.log(this.$route.path)
+         console.log(this.$route.path)
     },
     methods:{
         handleopen() {
@@ -62,7 +64,8 @@ export default {
             // console.log('handleclose');
         },
         handleselect: function (a, b) {
-            // console.log(a+"|"+b)
+             console.log(this.onRouter+"组件中")
+             this.$emit('handleselect',this.onRouter)
             
         },
         showMenu(i,status){

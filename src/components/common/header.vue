@@ -12,7 +12,7 @@
             <el-col :span = "4" class="userinfo">
                 <el-dropdown trigger = "hover">
                     <span class="el-dropdown-link">
-                        <img :src="this.userPhoto" />
+                        <img :src="this.userPhoto!==''?this.userPhoto:'../../assets/logo.png'" />
                         【{{userName}}】
                     </span>
                     <el-dropdown-menu slot="dropdown">
@@ -39,7 +39,10 @@ export default {
             this.$router.replace('/login')
             } else {
             this.userName = getStore('userInfo').name
-            this.userPhoto = getStore('userInfo').userPhoto
+            if(getStore('userInfo').userPhoto){
+                this.userPhoto = getStore('userInfo').userPhoto
+            }
+            
             }
 
     },

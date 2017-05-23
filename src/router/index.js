@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import Router from 'vue-router'
+ 
 import Login from '@/components/auth/login'
 import Main from '@/components/common/main'
 import Register from '@/components/auth/register'
@@ -10,7 +11,7 @@ import Add from '@/components/manage/add'
 // 商品
 import proList from '@/components/product/list'
 import addPro from '@/components/product/addPro'
-import upload from '@/components/product/upload'
+// import upload from '@/components/product/upload'
 // 卖家
 import sellerList from '@/components/seller/list' 
 
@@ -36,6 +37,7 @@ const router = new Router({
       }
   },
   routes: [
+   
     { path: '/', redirect: '/login' ,hidden:true},
     {
       path: '/regin',
@@ -58,7 +60,7 @@ const router = new Router({
         requireAuth:true //该字段用来验证这个路由时许需要登陆的
       },
        children:[
-          {path:'userList',component:userList,name:'用户列表'},
+          {path:'userlist',component:userList,name:'用户列表'},
           {path:'add',component:Add,name:'新增'}
       ]
     },
@@ -73,11 +75,13 @@ const router = new Router({
        children:[
           {path:'proList',iconCls:'el-icon-share ',component:proList,name:'商品列表'},
            {path:'addPro',iconCls:'el-icon-share ',component:addPro,name:'发布商品'},
-           {path:'upload',iconCls:'el-icon-share ',component:upload,name:'上传图片'}
+           {path:'upload',iconCls:'el-icon-share ',
+           component:resolve => require(['@/components/product/upload'],resolve),//这种写法是为了懒加载
+           name:'上传图片'}
       ]
     },
    {
-      path: '/user',
+      path: '/',
       name: '商家管理',
       iconCls:'el-icon-upload',
       component: Main,
@@ -88,8 +92,8 @@ const router = new Router({
           {path:'sellerList',iconCls:'el-icon-upload',component:sellerList,name:'卖家列表'}
       ]
      }
-
   ]
+  
 })
 // 刷新也main时，重新赋值登录信息
 if(getStore('userInfo')){
