@@ -41,7 +41,7 @@ export default {
           if (hasUser) {
             resolve([200, { code: 200, msg: '注册成功', user }])
           } else {
-            resolve([200, { code: 200, msg: '账号已存在' }])
+            reject([200, { code: 200, msg: '账号已存在' }])
           }
         })
       })

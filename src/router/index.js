@@ -60,8 +60,9 @@ const router = new Router({
         requireAuth:true //该字段用来验证这个路由时许需要登陆的
       },
        children:[
-          {path:'userlist',component:userList,name:'用户列表'},
-          {path:'add',component:Add,name:'新增'}
+          {path:'userlist',component:userList,name:'用户列表',meta:{page:1}},
+          {path:'add',component:Add,name:'新增',meta:{page:2}}
+          
       ]
     },
     {
@@ -73,23 +74,23 @@ const router = new Router({
         requireAuth:true //该字段用来验证这个路由时许需要登陆的
       },
        children:[
-          {path:'proList',iconCls:'el-icon-share ',component:proList,name:'商品列表'},
-           {path:'addPro',iconCls:'el-icon-share ',component:addPro,name:'发布商品'},
+          {path:'proList',iconCls:'el-icon-share ',component:proList,name:'商品列表',meta:{page:3}},
+           {path:'addPro',iconCls:'el-icon-share ',component:addPro,name:'发布商品',meta:{page:4}},
            {path:'upload',iconCls:'el-icon-share ',
            component:resolve => require(['@/components/product/upload'],resolve),//这种写法是为了懒加载
-           name:'上传图片'}
+           name:'上传图片',meta:{page:5}}
       ]
     },
    {
-      path: '/',
+      path: '/user',
       name: '商家管理',
       iconCls:'el-icon-upload',
       component: Main,
-      meta: {
+      meta: { 
         requireAuth:true //该字段用来验证这个路由时许需要登陆的
       },
        children:[
-          {path:'sellerList',iconCls:'el-icon-upload',component:sellerList,name:'卖家列表'}
+          {path:'sellerlist',iconCls:'el-icon-upload',component:sellerList,name:'卖家列表',meta:{page:6}}
       ]
      }
   ]

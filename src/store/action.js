@@ -18,6 +18,8 @@ export default {
             //  console.log(res)
             commit('REMEBER_USER', userInfo)
             return true
+        },(rej) => {
+            alert(rej.data.mag)
         }).catch(function (err) {
 
             // console.log(err)

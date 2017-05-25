@@ -8,8 +8,10 @@
               <left-aside :collapsed ="collapsed"></left-aside>
             </aside>
             <section  class="section">
-              <bread-crunmb></bread-crunmb>
-                  <router-view></router-view>
+                  <bread-crunmb></bread-crunmb>
+                  <transition :name="transitionName" mode="out-in">  
+                        <router-view></router-view>
+                  </transition>
               </section>
       </el-col>
       <el-col class="footer">
@@ -28,7 +30,16 @@ export default {
   name: 'hello',
   data() {
     return {
-      collapsed:false
+      collapsed:false,
+      transitionName:'transitionName'
+    }
+  },
+  watch: {
+    '$route' (to, from) {
+      const toPage = to.meta.page
+      const fromPage = from.meta.page
+      console.log(toPage+'|'+fromPage)
+      this.transitionName = toPage > fromPage ? 'slide-top':'slide-bottom'
     }
   },
   computed:{
@@ -104,4 +115,18 @@ a {
   padding: 10px 0;
   
 }
+
+.slide-top-enter, .slide-bottom-leave-active {
+  opacity: 0;
+  -webkit-transform: translate(0,50px);
+  transform: translate(0,50px);
+  transition:all 0.3s;
+}
+.slide-top-leave-active, .slide-bottom-enter {
+  opacity: 0;
+  -webkit-transform: translate(0,-50px);
+  transform: translate(0,-50px);
+   transition:all 0.3s;
+}
+
 </style>
