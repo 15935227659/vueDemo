@@ -3,7 +3,9 @@
            
             <el-upload 
                 ref="upload"
-                action="https://jsonplaceholder.typicode.com/posts/"
+                action="/uploads"
+                :multiple="true"
+                :auto-upload="false"
                 list-type="picture-card"
                 :on-preview="handlePictureCardPreview"
                 :on-success="handleSuccess"
@@ -14,15 +16,17 @@
             <el-dialog v-model="dialogVisible" size="tiny">
                 <img width="100%" :src="dialogImageUrl" alt="">
             </el-dialog>
+            
             <el-row>
-                <el-button @click="submitUpload">提交 </el-button>
+               <el-button @click="Upload">提交</el-button>
             </el-row>
         </el-col>
-
+       
 
 </template>
 
 <script>
+import axios from 'axios'
 import { upload } from "@/service/getData"
 export default {
     data() {
@@ -48,11 +52,12 @@ export default {
             console.log(this.dialogImageUrl)
         },
         handleSuccess(file){
-            
+            console.log(file)
         },
-        submitUpload() {
-            console.log(this.$refs.upload.uploadFiles)
+        Upload(){
+           this.$refs.upload.submit();
         }
+       
         
     }
 }
