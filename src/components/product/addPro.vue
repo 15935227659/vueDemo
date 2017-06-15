@@ -40,19 +40,51 @@
                 <el-form-item label="文本框">
                     <el-input type="textarea" v-model="form.desc"></el-input>
                 </el-form-item>
-           <quill-editor ref="myTextEditor" v-model="content" :config="editorOption"></quill-editor>
+        <div v-loading="imageLoading">
+           <quill-editor 
+               ref="myTextEditor" 
+               v-model="content"
+               style="height: 800px;margin-bottom:54px;" 
+               :config="editorOption"
+               @change="editorChange">
+               
+           </quill-editor>
+          
+
+        </div>
            <el-button class="editor-btn" type="primary" @click="submit">提交</el-button>
       </el-form>
   </el-col>
 </template>
 
 <script>
+
 import  { quillEditor } from 'vue-quill-editor'
+
 export default {
     data() {
         return {
+            imageLoading:false,
+            addImgRange:null,
             content:'<h2>Start a edit</h2>',
-            editorOption:{},
+            uniqueId:'test',
+            editorOption:{
+                modules: {
+                    toolbar: [
+                      [{ 'size': ['small', false, 'large'] }],
+                      ['bold', 'italic'],
+                      [{ 'list': 'ordered'}, { 'list': 'bullet' }],
+                      ['link', 'image']
+                    ],
+                    history: {
+                      delay: 1000,
+                      maxStack: 50,
+                      userOnly: false
+                    },
+                    imageImport: true
+                    
+                  }
+            },
             form:{
                 proname:'',
                 region:'',
@@ -68,16 +100,60 @@ export default {
     components: {
         quillEditor
     },
+    mounted() {
+        // var vm = this 
+        // var imgHandler = async function (image) {
+
+        //     vm.addImgRange = vm.$refs.myTextEditor.Quill.getSeletion()
+        //     console.log(0)
+        //     console.log(vm.addImgRange)
+        //     console.log(1)
+        //     if(image) {
+        //         var fileInput = document.getElementById(vm.uniqueId)
+        //         fileInput.click()
+        //     }
+        // }
+        // vm.$refs.myTextEditor.Quill.getModule('toolbar').addHandler('image',imgHandler)
+    },
     methods:{
-        onEditorChange({ editor, html, text }) {
+        editorChange({ editor, html, text }) {
             this.content = html;
+            console.log(text)
+            console.log(editor)
         },
         submit(){
             console.log(this.content);
-            console.log('--------------------')
+            // console.log('--------------------')
             console.log(this.form)
-            this.$message.success('提交成功！');
-        }
+            // this.$message.success('提交成功！');
+            alert('提交成功！')
+        },
+       //   uploadImg: async function(id) {
+       //      alert(id)
+       //   var vm = this
+       //   vm.imageLoading = true
+       //   var formData = new FormData($('#' + id)[0])
+       //   try {
+       //     const url = await vm.uploadImgReq(formData)// 自定义的图片上传函数
+       //     if (url != null && url.length > 0) {
+       //       var value = url
+       //       vm.addImgRange = vm.$refs.newEditor.quill.getSelection()
+       //       value = value.indexOf('http') != -1 ? value : 'http:' + value
+       //       vm.$refs.newEditor.Quill.insertEmbed(vm.addImgRange != null?vm.addImgRange.index:0, 'image', value, Quill.sources.USER)
+       //     } else {
+       //      alert('图片增加失败')
+       //        vm.$message.warning("图片增加失败")
+       //     }
+       //     document.getElementById(vm.uniqueId).value=''
+       //   } catch ({message: msg}) {
+       //     document.getElementById(vm.uniqueId).value=''
+       //     vm.$message.warning(msg)
+       //   }
+       //   vm.imageLoading = false
+       // },
+       // addImgRange(formData){
+       //      console.log(formData)
+       // }
     },
     computed: {
         editor () {

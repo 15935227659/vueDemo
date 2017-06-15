@@ -3,7 +3,7 @@
            
             <el-upload 
                 ref="upload"
-                action="/uploads"
+                action="/upload"
                 :multiple="true"
                 :auto-upload="false"
                 list-type="picture-card"
@@ -20,6 +20,10 @@
             <el-row>
                <el-button @click="Upload">提交</el-button>
             </el-row>
+
+            <el-col :span="24" style="min-height:500px;">
+                 <u-editor v-bind:value="defaultMsg" :ids="ids" v-bind:config="config" v-on:input="input" v-on:ready="ready"></u-editor>    
+            </el-col>
         </el-col>
        
 
@@ -28,18 +32,33 @@
 <script>
 import axios from 'axios'
 import { upload } from "@/service/getData"
+import uEditor from '../common/ueditor'
 export default {
     data() {
         return {
             dialogImageUrl:'',
             dialogVisible:false,
+            ids:'upload',
             image:{
                 id:110,
                 title:'图片',
                 url:'http:12fs.com/img001'
+            },
+            defaultMsg: '初始文本',  
+            config: {
+            initialFrameWidth: 1000,
+            initialFrameHeight: 320,
+            UEDITOR_HOME_URL: __dirname + 'static/ueditor/',
+            emotionLocalization: true,
+            scaleEnabled: true,//当内容超出规定高度，出现滚动条，默认不出现
+            toolbars: [[
+                'fullscreen','undo', 'redo','emotion','bold', 'italic', 'underline','forecolor', 'backcolor','insertimage','blockquote','justifyleft', 'justifycenter', 'justifyright','inserttable'
+            ]]
+         
             }
         }
     },
+    components:{ uEditor },
     methods: {
         //删除的回调
         handleRemove(file,fileList) {
@@ -56,6 +75,12 @@ export default {
         },
         Upload(){
            this.$refs.upload.submit();
+        },
+        input(val){//编辑内容变化
+            // console.log(val)
+        },
+        ready(val){
+            // console.log(val)
         }
        
         

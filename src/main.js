@@ -6,8 +6,17 @@ import router from './router'
 import store from './store/index'
 import elementUI from 'element-ui'
 import 'element-ui/lib/theme-default/index.css'
+
+import '../static/ueditor/ueditor.config.js'
+import '../static/ueditor/ueditor.all.min.js'
+import '../static/ueditor/ueditor.parse.min.js'
+import '../static/ueditor//lang/zh-cn/zh-cn.js'
+
+
 // import axios_lode from './service/axios_lode'
 import Mock from './mock/mock'
+
+  
 Mock.bootstrap()
 
 Vue.use(elementUI)
