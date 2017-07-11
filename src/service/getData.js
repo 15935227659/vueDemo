@@ -40,10 +40,10 @@ export const addUser = (para) => {
        url:'/user/add'     
    })
 }
-export const upload = (para) => {   
-   return axios({
-       method:'get',
-       params:para,
-       url:'/upload'     
-   })
-}
+// export const upload = (para) => {   
+//    return axios({
+//        method:'get',
+//        params:para,
+//        url:'/upload'     
+//    })
+// }

@@ -26,6 +26,10 @@ export default {
             initialFrameWidth: 1000,
             initialFrameHeight: 320,
             UEDITOR_HOME_URL: __dirname + 'static/ueditor/',
+            imageActionName:'/upload',
+            imageFieldName:'file',
+            serverUrl:__dirname+'ueditor/ue',
+            imageAllowFiles: [".png", ".jpg", ".jpeg", ".gif", ".bmp"], /* 上传图片格式显示 */
             emotionLocalization: true,
             scaleEnabled: true,
            

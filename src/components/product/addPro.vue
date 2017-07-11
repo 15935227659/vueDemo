@@ -41,40 +41,52 @@
                     <el-input type="textarea" v-model="form.desc"></el-input>
                 </el-form-item>
         <div v-loading="imageLoading">
+            <!--:config="editorOption"--:options="editorOption"-->
            <quill-editor 
                ref="myTextEditor" 
                v-model="content"
                style="height: 800px;margin-bottom:54px;" 
                :config="editorOption"
-               @change="editorChange">
                
+               @change="editorChange">
+               <!-- <div id="toolbar" slot="toolbar">
+                <span class="ql-formats"><button type="button" class="ql-bold">123</button></span>
+                  <span class="ql-formats"><button type="button" @click="imgClick">
+                    <svg viewBox="0 0 18 18"> <rect class="ql-stroke" height="10" width="12" x="3" y="4"></rect> <circle class="ql-fill" cx="6" cy="7" r="1"></circle> <polyline class="ql-even ql-fill" points="5 12 5 11 7 9 8 10 11 7 13 9 13 12 5 12"></polyline> </svg>
+                </button></span>
+               </div> -->
            </quill-editor>
           
 
         </div>
            <el-button class="editor-btn" type="primary" @click="submit">提交</el-button>
+           <input type="file"  name="file" ref="imgInput"/>
       </el-form>
   </el-col>
 </template>
 
 <script>
-
+import axios from 'axios'
 import  { quillEditor } from 'vue-quill-editor'
 
 export default {
     data() {
         return {
             imageLoading:false,
+            pic:'',
             addImgRange:null,
             content:'<h2>Start a edit</h2>',
             uniqueId:'test',
+            uploadUrl:'/upload',
+            fileName:'file',
+            vlaue:'',
             editorOption:{
                 modules: {
                     toolbar: [
-                      [{ 'size': ['small', false, 'large'] }],
-                      ['bold', 'italic'],
-                      [{ 'list': 'ordered'}, { 'list': 'bullet' }],
-                      ['link', 'image']
+                      // [{ 'size': ['small', false, 'large'] }],
+                      // ['bold', 'italic'],
+                      // [{ 'list': 'ordered'}, { 'list': 'bullet' }],
+                      // ['link', 'image']
                     ],
                     history: {
                       delay: 1000,
@@ -85,6 +97,11 @@ export default {
                     
                   }
             },
+            // editorOption:{
+            //     modules: {
+            //         toolbar: '#toolbar'
+            //     }
+            //     },
             form:{
                 proname:'',
                 region:'',
@@ -115,13 +132,67 @@ export default {
         // }
         // vm.$refs.myTextEditor.Quill.getModule('toolbar').addHandler('image',imgHandler)
     },
+    watch:{
+        'value'(newVal,oldVal){
+            if(this.editor) {
+                if(newVal !== this.content) {
+                    this.content = newVal
+                }
+            }
+        }
+    },
     methods:{
+        imgClick(){
+                   if(!this.uploadUrl){
+                    console.log('no editor uploadUrl');
+                    return;
+                    }
+                    /*内存创建input file*/
+                    var input=document.createElement('input');
+                    input.type='file';
+                    input.name=this.fileName;
+                    input.accept='image/jpeg,image/png,image/jpg,image/gif';
+                    input.onchange=this.onFileChange;
+                    input.click();
+        },
+         onFileChange(e){
+            var self=this;
+            var fileInput=e.target;
+            if(fileInput.files.length==0){
+            return;
+             }
+            console.log( this.editor)
+            this.editor.focus();
+            if(fileInput.files[0].size>1024*1024*100){
+            this.$alert('图片不能大于600KB', '图片尺寸过大', {
+                confirmButtonText: '确定',
+                type: 'warning',
+            });
+            }
+            var data=new FormData;
+            // data.append();
+            console.log(fileInput.files[0])
+           
+        axios.post('/upload',{'file':fileInput.files[0]}).then(function(res){
+            if(res.data) {
+                self.editor.insertEmbed(self.editor.getSelection().index, 'image', res.data);
+            }
+        })
+       
+           
+        },
         editorChange({ editor, html, text }) {
             this.content = html;
             console.log(text)
             console.log(editor)
         },
         submit(){
+            axios({
+            method:'post',
+            url:'/news/find'
+        }).then((res) => {
+            console.log(res)
+        })
             console.log(this.content);
             // console.log('--------------------')
             console.log(this.form)
@@ -157,7 +228,7 @@ export default {
     },
     computed: {
         editor () {
-            return this.$refs.myTextEditor.quillEditor;
+            return this.$refs.myTextEditor.quill;
         }
     }
 
